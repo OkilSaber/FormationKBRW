@@ -1,6 +1,6 @@
-defmodule KV do
+defmodule Chapter0 do
   @moduledoc """
-  Documentation for `KV`.
+  Documentation for `Chapter0`.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule KV do
 
   ## Examples
 
-      iex> KV.hello()
+      iex> Chapter0.hello()
       :world
 
   """

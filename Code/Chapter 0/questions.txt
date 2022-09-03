@@ -1,0 +1,20 @@
+1)
+Do you know the differences between a bitstring, a binary and a charlist ?
+How do you write them in Elixir ?
+In Erlang ?
+A bitstring is a contiguous sequence of bits in memory. Written <<>> in Elixir and in Erlang too.
+A binary is a bitstring where the number of bits is divisible by 8. Written <<>> in Elixir and in Erlang too can be checked using the is_binary() function.
+A charlist is a list of integers where all the integers are valid code points. Written '' in Elixir and in Erlang too.
+
+2)
+What is the main difference between a Stream and an Enum ?
+The difference between them is that Enum is eager while Stream is lazy. Enum, being eager, produces a whole list of numbers after each operation in the script until the result is reached. Conversely, Stream, being lazy, creates a stream that represents a function without executing it straight away.
+
+3)
+Sort this data structures from the cheapest to the most expensive one in terms of number of operations and CPU time:
+
+    1- Bitstring
+
+    2- Charlist
+
+    3- List
