@@ -1,9 +1,9 @@
-defmodule Server.MixProject do
+defmodule Step01.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :server,
+      app: :step_01,
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
