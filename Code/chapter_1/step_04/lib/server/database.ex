@@ -35,7 +35,6 @@ defmodule Server.Database do
 
   @impl true
   def handle_call({:read, key}, _from, state) do
-    IO.puts("Reading #{key}")
     {:reply, :ets.lookup(__MODULE__, key), state}
   end
 end

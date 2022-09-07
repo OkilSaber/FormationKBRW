@@ -20,13 +20,11 @@ defmodule Server do
 
   @impl true
   def handle_call(object, _from, intern_state) do
-    IO.puts("Received call with #{inspect(object)}")
     {:reply, object, intern_state}
   end
 
   @impl true
   def handle_cast(object, intern_state) do
-    IO.puts("Received cast with #{inspect(object)}")
     {:noreply, intern_state}
   end
 end
