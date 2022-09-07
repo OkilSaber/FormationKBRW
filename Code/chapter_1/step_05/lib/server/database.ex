@@ -7,7 +7,7 @@ defmodule Server.Database do
 
   @impl true
   def init(state) do
-    :ets.new(__MODULE__, [:named_table, read_concurrency: true])
+    :ets.new(__MODULE__, [:public, :named_table, read_concurrency: true])
     {:ok, state}
   end
 
@@ -39,11 +39,8 @@ defmodule Server.Database do
   end
 
   def search(database, criteria) do
-    results = []
-    for item <- criteria do
-      IO.puts("Searching #{item}")
-      results = results ++ :ets.lookup(database, item)
-    end
-    results
+    Enum.map(criteria, fn item ->
+      :ets.select(database, item)
+    end)
   end
 end
