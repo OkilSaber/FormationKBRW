@@ -34,13 +34,18 @@ defmodule Server.Database do
   end
 
   @impl true
-  def handle_call({:read, key}, _from, state) do
+  def handle_call({:get, key}, _from, state) do
     {:reply, :ets.lookup(__MODULE__, key), state}
   end
 
-  def search(database, criteria) do
-    Enum.map(criteria, fn item ->
-      :ets.select(database, item)
+  def handle_call({:search, criterias}, _from, state) do
+    {:reply, search(__MODULE__, criterias), state}
+  end
+
+  def search(database, criterias) do
+    Enum.map(criterias, fn criteria ->
+      [{_, res} | _] = :ets.match_object(database, {:"$1", Map.new([criteria])})
+      res
     end)
   end
 end
