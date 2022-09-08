@@ -1,7 +1,15 @@
-window.onload = () => {
-    var button = document.querySelector('button');
-    button.onclick = () => {
-        const elem = React.createElement('div', null, 'Hello World');
-        ReactDOM.render(elem, document.querySelector('#root'));
-    };
-}
+var createReactClass = require('create-react-class')
+
+  var Page = createReactClass({
+    render(){
+      return <JSXZ in="template" sel=".container">
+        <Z sel=".item">Burgers</Z>,
+        <Z sel=".price">50</Z>
+      </JSXZ>
+    }
+  })
+
+  ReactDOM.render(
+    <Page/>,
+    document.getElementById('root')
+  )
