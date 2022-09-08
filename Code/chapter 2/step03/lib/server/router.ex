@@ -15,8 +15,10 @@ defmodule Server.Router do
   get "/get" do
     Logger.info("GET /get")
     conn = fetch_query_params(conn)
-    [{_, res} | _] = GenServer.call(Server.Database, {:get, conn.query_params["id"]})
-    send_resp(conn, 200, Poison.encode!(res))
+    case GenServer.call(Server.Database, {:get, conn.query_params["id"]}) do
+      [{_, res} | _] ->send_resp(conn, 200, Poison.encode!(res))
+      _ -> send_resp(conn, 200, [])
+    end
   end
 
   get "/search/" do
