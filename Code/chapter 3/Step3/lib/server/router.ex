@@ -9,10 +9,16 @@ defmodule Server.Router do
 
   Logger.info("Starting Router")
 
-  get "/get" do
+  get "/orders" do
+    Logger.info("GET /orders")
+    res = GenServer.call(Server.Database, :get_orders)
+    send_resp(conn, 200, Poison.encode!(res))
+  end
+
+  get "/order/" do
     Logger.info("GET /get")
     conn = fetch_query_params(conn)
-    [{_, res} | _] = GenServer.call(Server.Database, {:get, conn.query_params["id"]})
+    [{_, res} | _] = GenServer.call(Server.Database, {:get, conn.query_params["order_id"]})
     send_resp(conn, 200, Poison.encode!(res))
   end
 

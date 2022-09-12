@@ -1,7 +1,7 @@
 const React = require("react")
 const createReactClass = require('create-react-class')
-const orders = []
-
+import {getQuantity, formatAddress, goTo} from './utilities';
+import { remoteProps } from './remote_props'
 export const Child = createReactClass({
     render() {
         var [ChildHandler, ...rest] = this.props.handlerPath
@@ -9,17 +9,20 @@ export const Child = createReactClass({
     }
 })
 
-export const Orders = createReactClass({
+export const ListOrders = createReactClass({
+    statics: {
+        remoteProps: [remoteProps.orders]
+    },
     render() {
         return (
             <>{
-                orders.map(
+                this.props.orders.value.map(
                     order => (
-                        <JSXZ in="orders" sel=".products-table-container">
+                        <JSXZ in="orders" sel=".products-table-container" key={order.id}>
                             <Z sel=".commands-list">
                                 <JSXZ in="orders" sel=".command-number-container">
                                     <Z in="orders" sel=".command-number-text">
-                                        {order.remoteid}
+                                        {order.id}
                                     </Z>
                                 </JSXZ>
                                 <JSXZ in="orders" sel=".customer-container">
@@ -29,22 +32,22 @@ export const Orders = createReactClass({
                                 </JSXZ>
                                 <JSXZ in="orders" sel=".address-container">
                                     <Z in="orders" sel=".address-text">
-                                        {order.custom.billing_address}
+                                        {formatAddress(order.custom.shipping_address)}
                                     </Z>
                                 </JSXZ>
                                 <JSXZ in="orders" sel=".quantity-container">
                                     <Z in="orders" sel=".quantity-text">
-                                        {order.items}
+                                        {getQuantity(order.custom.items)}
                                     </Z>
                                 </JSXZ>
                                 <JSXZ in="orders" sel=".details-container">
                                     <Z in="orders" sel=".details-link">
-                                        See details
+                                        <a onClick={() => goTo("order", order.id, {})}>Details</a>
                                     </Z>
                                 </JSXZ>
                                 <JSXZ in="orders" sel=".pay-container">
                                     <Z in="orders" sel=".pay-text">
-                                        {order.remoteid}
+                                        Status: {order.status.state}
                                     </Z>
                                 </JSXZ>
                             </Z>
@@ -56,7 +59,7 @@ export const Orders = createReactClass({
     }
 })
 
-export const Header = createReactClass({
+export const ListHeader = createReactClass({
     render() {
         return (
             <JSXZ in="orders" sel=".header">
@@ -70,7 +73,10 @@ export const Header = createReactClass({
                             <JSXZ in="orders" sel=".list-categories-container"></JSXZ>
                             <this.props.Child {...this.props} />
                         </Z>
-
+                        <Z sel=".pages">
+                            <ChildrenZ />
+                            {/* <JSXZ in="orders" sel=".pages-container"></JSXZ> */}
+                        </Z>
                     </JSXZ>
                 </Z>
             </JSXZ>
@@ -78,7 +84,7 @@ export const Header = createReactClass({
     }
 })
 
-export const Layout = createReactClass({
+export const ListLayout = createReactClass({
     render() {
         return (
             <JSXZ in="orders" sel=".layout">

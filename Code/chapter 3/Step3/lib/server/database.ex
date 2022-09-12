@@ -40,6 +40,11 @@ defmodule Server.Database do
   end
 
   @impl true
+  def handle_call(:get_orders, _from, state) do
+    {:reply, Enum.map(:ets.tab2list(__MODULE__), fn {_, v} -> v end), state}
+  end
+
+  @impl true
   def handle_call({:get, key}, _from, state) do
     {:reply, :ets.lookup(__MODULE__, key), state}
   end
