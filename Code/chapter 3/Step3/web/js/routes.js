@@ -1,4 +1,5 @@
 import { ListLayout, ListHeader, ListOrders } from './orders_list_components';
+import { DetailsLayout, DetailsHeader, DetailsOrder } from './order_details_components';
 
 export const routes = {
     "orders": {
@@ -15,7 +16,7 @@ export const routes = {
         },
         match: (path, qs) => {
             var r = new RegExp("/order/([^/]*)$").exec(path)
-            return r && { handlerPath: [Layout, Header, Order], order_id: r[1] }
+            return r && { handlerPath: [DetailsLayout, DetailsHeader, DetailsOrder], order_id: r[1] }
         }
     }
 }

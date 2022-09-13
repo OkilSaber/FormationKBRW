@@ -1,4 +1,4 @@
-/* Generated on: Mon Sep 12 2022 14:42:58 GMT+0000 (Coordinated Universal Time) */
+/* Generated on: Tue Sep 13 2022 14:25:47 GMT+0000 (Coordinated Universal Time) */
 /* ==========================================================================
    normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css 
    ========================================================================== */
@@ -1830,7 +1830,7 @@ body {
   justify-content: space-between;
 }
 
-.order-details {
+.order-details-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1870,10 +1870,11 @@ body {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   -ms-grid-rows: auto;
   grid-template-rows: auto;
+  border-bottom: 1px solid #000;
   background-color: #284e8f;
 }
 
-.products {
+.products-list {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1891,6 +1892,7 @@ body {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   -ms-grid-rows: auto;
   grid-template-rows: auto;
+  border-bottom: 1px solid #000;
 }
 
 .pages-container {
@@ -1930,7 +1932,7 @@ body {
   padding-left: 10px;
 }
 
-.products-table {
+.orders-table {
   grid-auto-columns: 1fr;
   grid-column-gap: 16px;
   grid-row-gap: 16px;
@@ -1938,11 +1940,13 @@ body {
   grid-template-columns: 1fr;
   -ms-grid-rows: auto auto;
   grid-template-rows: auto auto;
-  border: 1px solid #000;
+  border-style: solid solid none;
+  border-width: 1px;
+  border-color: #000;
   border-radius: 2px;
 }
 
-.order-data {
+.order-data-container {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2026,7 +2030,7 @@ body {
   padding: 0px;
 }
 
-.commands-list {
+.orders-list {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2041,7 +2045,7 @@ body {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   -ms-grid-rows: auto;
   grid-template-rows: auto;
-  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
 }
 
 .image {
@@ -2077,7 +2081,7 @@ body {
   font-weight: 700;
 }
 
-.command-number-container {
+.order-number-container {
   overflow: scroll;
   width: 16.67%;
   -webkit-box-orient: horizontal;
@@ -2100,9 +2104,10 @@ body {
   -ms-flex-line-pack: stretch;
   align-content: stretch;
   border-right: 1px solid #000;
+  text-align: center;
 }
 
-.command-number-text {
+.order-number-text {
   -webkit-flex-wrap: nowrap;
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
@@ -2115,6 +2120,7 @@ body {
   overflow: scroll;
   width: 16.67%;
   border-right: 1px solid #000;
+  text-align: center;
 }
 
 .customer-text {
@@ -2126,6 +2132,7 @@ body {
   overflow: scroll;
   width: 16.67%;
   border-right: 1px solid #000;
+  text-align: center;
 }
 
 .address-text {
@@ -2133,7 +2140,7 @@ body {
   color: #393e46;
 }
 
-.productquantitycontainer {
+.product-quantity-container {
   width: 25%;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -2147,6 +2154,7 @@ body {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
+  border-right: 1px solid #000;
 }
 
 .pay-container {
@@ -2155,14 +2163,15 @@ body {
   -webkit-flex: 0 auto;
   -ms-flex: 0 auto;
   flex: 0 auto;
-  border-right: 1px none #000;
+  border-right: 1px solid #000;
+  text-align: center;
 }
 
 .pay-text {
   color: #393e46;
 }
 
-.productnamecontainer {
+.product-name-container {
   width: 25%;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -2183,11 +2192,7 @@ body {
   border-right: 1px solid #000;
 }
 
-.productquantitytext {
-  border-right: 1px solid #000;
-}
-
-.productunitypricecontainer {
+.product-unit-price-container {
   width: 25%;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -2204,7 +2209,7 @@ body {
   border-right: 1px solid #000;
 }
 
-.producttotalpricecontainer {
+.product-total-price-container {
   width: 25%;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -2439,6 +2444,7 @@ body {
   overflow: scroll;
   width: 16.67%;
   border-right: 1px solid #000;
+  text-align: center;
 }
 
 .quantity-text {
@@ -2450,6 +2456,7 @@ body {
   overflow: scroll;
   width: 16.67%;
   border-right: 1px solid #000;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -2468,8 +2475,123 @@ body {
   font-weight: 400;
 }
 
+.products-table {
+  grid-auto-columns: 1fr;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  -ms-grid-columns: 1fr;
+  grid-template-columns: 1fr;
+  -ms-grid-rows: auto auto;
+  grid-template-rows: auto auto;
+  border-style: solid solid none;
+  border-width: 1px;
+  border-color: #000;
+  border-radius: 2px;
+}
+
+.modal-wrapper {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  right: auto;
+  bottom: auto;
+  z-index: 1000;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #c4c4c4;
+}
+
+.modal-wrapper.hidden {
+  display: none;
+}
+
+.actions-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 16.67%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 auto;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+  border-right: 1px none #000;
+  text-align: center;
+}
+
+.actions-category {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background-color: #284e8f;
+}
+
+.actions-category-text {
+  font-family: Notosans, sans-serif;
+  color: #fff;
+  text-align: center;
+}
+
+.actions-text {
+  color: #393e46;
+}
+
+.action-delete-button {
+  margin: 10px;
+  padding: 10px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  border-radius: 2px;
+  background-color: #bf0a3a;
+  cursor: pointer;
+}
+
+.action-delete-text {
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+}
+
 @media screen and (max-width: 991px) {
-  .order-details {
+  .order-details-container {
     display: -ms-grid;
     display: grid;
     margin: 10px;
@@ -2497,7 +2619,7 @@ body {
     position: absolute;
   }
 
-  .order-data {
+  .order-data-container {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;

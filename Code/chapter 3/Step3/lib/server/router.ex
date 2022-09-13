@@ -9,20 +9,19 @@ defmodule Server.Router do
 
   Logger.info("Starting Router")
 
-  get "/orders" do
+  get "/api/orders" do
     Logger.info("GET /orders")
     res = GenServer.call(Server.Database, :get_orders)
     send_resp(conn, 200, Poison.encode!(res))
   end
 
-  get "/order/" do
-    Logger.info("GET /get")
-    conn = fetch_query_params(conn)
-    [{_, res} | _] = GenServer.call(Server.Database, {:get, conn.query_params["order_id"]})
+  get "/api/order/:id" do
+    Logger.info("GET /order/#{id}")
+    [{_, res} | _] = GenServer.call(Server.Database, {:get, id})
     send_resp(conn, 200, Poison.encode!(res))
   end
 
-  get "/search/" do
+  get "/api/search/" do
     Logger.info("GET /search/")
     put_resp_content_type(conn, "application/json")
     conn = fetch_query_params(conn)
@@ -36,7 +35,7 @@ defmodule Server.Router do
     send_resp(conn, 200, Poison.encode!(result))
   end
 
-  post "/create" do
+  post "/api/create" do
     Logger.info("POST /create")
     {_, res, _} = read_body(conn)
     res = Poison.decode!(res)
@@ -44,7 +43,7 @@ defmodule Server.Router do
     send_resp(conn, 200, "OK")
   end
 
-  put "/update" do
+  put "/api/update" do
     Logger.info("PUT /update")
     {_, res, _} = read_body(conn)
     res = Poison.decode!(res)
@@ -52,15 +51,16 @@ defmodule Server.Router do
     send_resp(conn, 200, "OK")
   end
 
-  delete "/delete" do
-    Logger.info("DELETE /delete")
-    {_, res, _} = read_body(conn)
-    res = Poison.decode!(res)
-    GenServer.cast(Server.Database, {:delete, res["id"]})
-    send_resp(conn, 200, "OK")
+  delete "/api/order/:id" do
+    Logger.info("DELETE /order/#{id}")
+    GenServer.cast(Server.Database, {:delete, id})
+    send_resp(conn, 204, "")
   end
 
-  get(_, do: send_file(conn, 200, "priv/static/index.html"))
+  get _ do
+    IO.puts("Sending HTML file")
+    send_file(conn, 200, "priv/static/index.html")
+  end
 
   match _ do
     Logger.error("#{conn.method} #{conn.request_path}")
