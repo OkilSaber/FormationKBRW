@@ -20,9 +20,10 @@ defmodule Server.Riak do
       data
     }
 
-    {reponse, result} = :httpc.request(:put, http_options, [], [])
+    {reponse, {{_, _code, _message},_options, body}} = :httpc.request(:put, http_options, [], [])
     Logger.info("Response: #{reponse}")
-    result
+    Logger.info("Body: #{body}")
+    body
   end
 
   def create(bucket, "application/json", keys, data) do
@@ -35,9 +36,10 @@ defmodule Server.Riak do
       Poison.encode!(data)
     }
 
-    {reponse, result} = :httpc.request(:put, http_options, [], [])
+    {reponse, {{_, _code, _message},_options, body}} = :httpc.request(:put, http_options, [], [])
     Logger.info("Response: #{reponse}")
-    result
+    Logger.info("Body: #{body}")
+    body
   end
 
   def create_bucket(bucket_name, props) do
@@ -50,9 +52,10 @@ defmodule Server.Riak do
       Poison.encode!(%{props: props})
     }
 
-    {reponse, result} = :httpc.request(:put, http_options, [], [])
+    {reponse, {{_, _code, _message},_options, body}} = :httpc.request(:put, http_options, [], [])
     Logger.info("Response: #{reponse}")
-    result
+    Logger.info("Body: #{body}")
+    body
   end
 
   def create_schema(name, path) do
@@ -66,9 +69,10 @@ defmodule Server.Riak do
       file_contents
     }
 
-    {reponse, result} = :httpc.request(:put, http_options, [], [])
+    {reponse, {{_, _code, _message},_options, body}} = :httpc.request(:put, http_options, [], [])
     Logger.info("Response: #{reponse}")
-    result
+    Logger.info("Body: #{body}")
+    body
   end
 
   def get_buckets do
@@ -79,9 +83,10 @@ defmodule Server.Riak do
       Server.Riak.auth_header()
     }
 
-    {reponse, result} = :httpc.request(:get, http_options, [], [])
+    {reponse, {{_, _code, _message},_options, body}} = :httpc.request(:get, http_options, [], [])
     Logger.info("Response: #{reponse}")
-    result
+    Logger.info("Body: #{body}")
+    body
   end
 
   def get_bucket(bucket) do
@@ -92,9 +97,10 @@ defmodule Server.Riak do
       Server.Riak.auth_header()
     }
 
-    {reponse, result} = :httpc.request(:get, http_options, [], [])
+    {reponse, {{_, _code, _message},_options, body}} = :httpc.request(:get, http_options, [], [])
     Logger.info("Response: #{reponse}")
-    result
+    Logger.info("Body: #{body}")
+    body
   end
 
   def get_schema(name) do
@@ -105,9 +111,10 @@ defmodule Server.Riak do
       Server.Riak.auth_header()
     }
 
-    {reponse, result} = :httpc.request(:get, http_options, [], [])
+    {reponse, {{_, _code, _message},_options, body}} = :httpc.request(:get, http_options, [], [])
     Logger.info("Response: #{reponse}")
-    result
+    Logger.info("Body: #{body}")
+    body
   end
 
   def index_schema(index_name, schema_name) do
@@ -120,8 +127,9 @@ defmodule Server.Riak do
       Poison.encode!(%{schema: schema_name})
     }
 
-    {reponse, result} = :httpc.request(:put, http_options, [], [])
+    {reponse, {{_, _code, _message},_options, body}} = :httpc.request(:put, http_options, [], [])
     Logger.info("Response: #{reponse}")
-    result
+    Logger.info("Body: #{body}")
+    body
   end
 end
