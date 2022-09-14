@@ -40,12 +40,43 @@ defmodule Server.Riak do
     result
   end
 
+  def create_bucket(bucket) do
+    Logger.info("Creating bucket #{bucket}")
+
+    http_options = {
+      '#{Server.Riak.url()}/buckets/#{bucket}/props',
+      Server.Riak.auth_header(),
+      'application/json',
+      Poison.encode!(%{props: %{n_val: 1}})
+    }
+
+    {reponse, result} = :httpc.request(:put, http_options, [], [])
+    Logger.info("Response: #{reponse}")
+    result
+  end
+
+  def create_schema(name, path) do
+    Logger.info("Creating schema #{name} with path #{path}")
+    file_contents = File.read!(path)
+
+    http_options = {
+      '#{Server.Riak.url()}/search/schema/#{name}',
+      Server.Riak.auth_header(),
+      'application/xml',
+      file_contents
+    }
+
+    {reponse, result} = :httpc.request(:put, http_options, [], [])
+    Logger.info("Response: #{reponse}")
+    result
+  end
+
   def get_buckets do
     Logger.info("Getting buckets")
 
     http_options = {
       '#{Server.Riak.url()}/buckets?buckets=true',
-      Server.Riak.auth_header(),
+      Server.Riak.auth_header()
     }
 
     {reponse, result} = :httpc.request(:get, http_options, [], [])
@@ -58,7 +89,20 @@ defmodule Server.Riak do
 
     http_options = {
       '#{Server.Riak.url()}/buckets/#{bucket}/keys?keys=true?',
-      Server.Riak.auth_header(),
+      Server.Riak.auth_header()
+    }
+
+    {reponse, result} = :httpc.request(:get, http_options, [], [])
+    Logger.info("Response: #{reponse}")
+    result
+  end
+
+  def get_schema(name) do
+    Logger.info("Getting schema #{name}")
+
+    http_options = {
+      '#{Server.Riak.url()}/search/schema/#{name}',
+      Server.Riak.auth_header()
     }
 
     {reponse, result} = :httpc.request(:get, http_options, [], [])
