@@ -40,14 +40,14 @@ defmodule Server.Riak do
     result
   end
 
-  def create_bucket(bucket) do
-    Logger.info("Creating bucket #{bucket}")
+  def create_bucket(bucket_name, props) do
+    Logger.info("Creating bucket #{bucket_name}")
 
     http_options = {
-      '#{Server.Riak.url()}/buckets/#{bucket}/props',
+      '#{Server.Riak.url()}/buckets/#{bucket_name}/props',
       Server.Riak.auth_header(),
       'application/json',
-      Poison.encode!(%{props: %{n_val: 1}})
+      Poison.encode!(%{props: props})
     }
 
     {reponse, result} = :httpc.request(:put, http_options, [], [])
