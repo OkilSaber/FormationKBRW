@@ -25,3 +25,4 @@ tuto_kbrw_stack-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+.DS_Store
