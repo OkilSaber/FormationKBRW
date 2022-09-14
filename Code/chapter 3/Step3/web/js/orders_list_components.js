@@ -3,6 +3,7 @@ const createReactClass = require('create-react-class')
 import { getQuantity, formatAddress, goTo, cn } from './utilities';
 import { remoteProps } from './remote_props'
 import { HTTP } from './http';
+import { DeleteModal, LoaderModal } from './modals';
 export const Child = createReactClass({
     render() {
         var [ChildHandler, ...rest] = this.props.handlerPath
@@ -14,17 +15,16 @@ export const ListOrders = createReactClass({
     statics: {
         remoteProps: [remoteProps.orders]
     },
+    getInitialState: function () {
+        return { orders: this.props.orders.value }
+    },
     openDeleteModal(order) {
         this.props.modal({
             type: 'delete',
-            title: 'Order deletion',
-            message: `Are you sure you want to delete this ?`,
             callback: (value) => {
                 switch (value) {
                     case true:
-                        HTTP.delete(`/api/order/${order.id}`).then(() => {
-                            location.reload()
-                        })
+                        this.openLoadModal(HTTP.delete(`/api/order/${order.id}`), order.id)
                         break
                     default:
                         break
@@ -35,7 +35,7 @@ export const ListOrders = createReactClass({
     render() {
         return (
             <>{
-                this.props.orders.value.map(
+                this.state.orders.map(
                     order => (
                         <JSXZ in="orders" sel=".orders-table-container" key={order.id}>
                             <Z sel=".orders-list">
@@ -107,21 +107,6 @@ export const ListHeader = createReactClass({
     }
 })
 
-export const DeleteModal = createReactClass({
-    render() {
-        return (
-            <JSXZ in="confirm_modal" sel=".modal-content">
-                <Z sel=".buttons-container">
-                    <JSXZ in="confirm_modal" sel=".confirm-delete-button" onClick={() => this.props.callback(true)}>
-                    </JSXZ>
-                    <JSXZ in="confirm_modal" sel=".cancel-delete-button" onClick={() => this.props.callback(false)}>
-                    </JSXZ>
-                </Z>
-            </JSXZ>
-        )
-    }
-})
-
 export const ListLayout = createReactClass({
     getInitialState: () => {
         return { modal: null };
@@ -131,15 +116,32 @@ export const ListLayout = createReactClass({
             modal: {
                 ...spec, callback: (res) => {
                     this.setState({ modal: null }, () => {
-                        if (spec.callback) spec.callback(res)
+                        if (spec.callback) {
+                            spec.callback(res)
+                        }
                     })
                 }
             }
         })
     },
+    openLoadModal(promise, order_id) {
+        this.props.modal({
+            type: 'load',
+            promise: promise,
+            order_id: order_id,
+            callback: (value) => {
+                this.setState({
+                    orders: this.state.orders.filter((o) => {
+                        return o.id != value
+                    })
+                })
+            }
+        })
+    },
     render() {
         var modal_component = {
-            'delete': (props) => <DeleteModal {...props} />
+            'delete': (props) => <DeleteModal {...props} />,
+            'load': (props) => <LoaderModal {...props} />
         }[this.state.modal && this.state.modal.type];
         modal_component = modal_component && modal_component(this.state.modal)
         var props = {

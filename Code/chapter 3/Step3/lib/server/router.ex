@@ -53,6 +53,7 @@ defmodule Server.Router do
 
   delete "/api/order/:id" do
     Logger.info("DELETE /order/#{id}")
+    :timer.sleep(2000);
     GenServer.cast(Server.Database, {:delete, id})
     send_resp(conn, 204, "")
   end
