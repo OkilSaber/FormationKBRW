@@ -109,4 +109,19 @@ defmodule Server.Riak do
     Logger.info("Response: #{reponse}")
     result
   end
+
+  def index_schema(index_name, schema_name) do
+    Logger.info("Indexing schema #{schema_name} to index #{index_name}")
+
+    http_options = {
+      '#{Server.Riak.url()}/search/index/#{index_name}',
+      Server.Riak.auth_header(),
+      'application/json',
+      Poison.encode!(%{schema: schema_name})
+    }
+
+    {reponse, result} = :httpc.request(:put, http_options, [], [])
+    Logger.info("Response: #{reponse}")
+    result
+  end
 end
