@@ -7,9 +7,9 @@ defmodule Server.Database do
     serv = GenServer.start_link(__MODULE__, [], name: __MODULE__)
     Logger.info("Loading JSON to Database")
     path0 = "/Users/saber/FormationKBRW/Chapters/Resources/chap1/orders_dump/orders_chunk0.json"
-    path1 = "/Users/saber/FormationKBRW/Chapters/Resources/chap1/orders_dump/orders_chunk1.json"
+    # path1 = "/Users/saber/FormationKBRW/Chapters/Resources/chap1/orders_dump/orders_chunk1.json"
     JsonLoader.load_to_database(Server.Database, path0)
-    JsonLoader.load_to_database(Server.Database, path1)
+    # JsonLoader.load_to_database(Server.Database, path1)
     serv
   end
 
