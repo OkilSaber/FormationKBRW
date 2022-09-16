@@ -107,7 +107,7 @@ export const ListOrders = createReactClass({
 
 export const ListHeader = createReactClass({
     getInitialState: function () {
-        return { search_field: "", rows: 10 }
+        return { search_field: "", rows: 30 }
     },
     search() {
         if (this.state.search_field != "") {
