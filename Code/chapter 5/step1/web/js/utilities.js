@@ -11,6 +11,9 @@ var browserState = { Child }
 export function onPathChange() {
     var path = location.pathname
     var qs = Qs.parse(location.search.slice(1))
+    let page = parseInt(qs.page)
+    if (isNaN(page) || page < 0)
+        qs.page = 0
     var cookies = Cookie.parse(document.cookie)
     browserState = {
         ...browserState,
@@ -51,6 +54,9 @@ export const getQuantity = (items) => items.reduce((accumulator, { quantity_to_f
 
 export var goTo = (route, params, query) => {
     var qs = Qs.stringify(query)
+    if (parseInt(qs.page) < 0) {
+        qs.page = 0
+    }
     var url = routes[route].path(params) + ((qs == '') ? '' : ('?' + qs))
     history.pushState({}, "", url)
     onPathChange()

@@ -80,7 +80,7 @@ export const DetailsHeader = createReactClass({
                             <JSXZ in="order_details" sel=".list-categories-container"></JSXZ>
                             <this.props.Child {...this.props} />
                         </Z>
-                        <Z in="order_details" sel=".back-container" onClick={() => goTo("orders", {}, {})}>
+                        <Z in="order_details" sel=".back-container" onClick={() => goTo("orders", {}, { page: 0 })}>
                             <ChildrenZ />
                         </Z>
                     </JSXZ>

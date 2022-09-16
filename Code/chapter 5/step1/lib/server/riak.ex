@@ -206,4 +206,22 @@ defmodule Server.Riak do
       delete_key(bucket, key)
     end
   end
+
+  def escape(string) do
+    :http_uri.encode(string)
+  end
+
+  def search(index, query, page, rows, sort) do
+    Logger.info("Searching index #{index}")
+
+    http_options = {
+      '#{Server.Riak.url()}/search/query/#{index}?wt=json&q=#{query}&start=#{page}&rows=#{rows}&sort=#{sort}',
+      Server.Riak.auth_header()
+    }
+
+    {response, {{_, _code, _message}, _options, body}} = :httpc.request(:get, http_options, [], [])
+    Logger.info("Response: #{response}")
+    Logger.info("Body: #{body}")
+    Poison.decode!(body)
+  end
 end

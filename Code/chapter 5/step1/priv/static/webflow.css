@@ -1,4 +1,4 @@
-/* Generated on: Wed Sep 14 2022 07:44:08 GMT+0000 (Coordinated Universal Time) */
+/* Generated on: Fri Sep 16 2022 08:24:28 GMT+0000 (Coordinated Universal Time) */
 /* ==========================================================================
    normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css 
    ========================================================================== */
@@ -1927,11 +1927,6 @@ body {
   align-content: flex-end;
 }
 
-.page {
-  padding-right: 10px;
-  padding-left: 10px;
-}
-
 .orders-table {
   grid-auto-columns: 1fr;
   grid-column-gap: 16px;
@@ -2072,13 +2067,6 @@ body {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
-}
-
-.boldblacktext {
-  font-family: Notosans, sans-serif;
-  color: #393e46;
-  font-size: 16px;
-  font-weight: 700;
 }
 
 .order-number-container {
@@ -2475,6 +2463,10 @@ body {
   font-weight: 400;
 }
 
+.pages {
+  padding: 10px;
+}
+
 .products-table {
   grid-auto-columns: 1fr;
   grid-column-gap: 16px;
@@ -2557,10 +2549,6 @@ body {
   text-align: center;
 }
 
-.actions-text {
-  color: #393e46;
-}
-
 .action-delete-button {
   margin: 10px;
   padding: 10px;
@@ -2616,6 +2604,26 @@ body {
 
 .loader-wrapper.hidden {
   display: none;
+}
+
+.previous-page-container {
+  margin-right: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.next-page-container {
+  margin-right: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.search-text-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: left;
 }
 
 @media screen and (max-width: 991px) {

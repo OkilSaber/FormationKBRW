@@ -8,7 +8,7 @@ defmodule ServerSupervisor do
   @impl true
   def init(:ok) do
     children = [
-      {Server.Database, name: Server.Database},
+      # {Server.Database, name: Server.Database},
       {Plug.Cowboy, scheme: :http, plug: Server.Router, options: [port: 4001]}
     ]
 

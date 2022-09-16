@@ -11,23 +11,33 @@ defmodule TutoKbrwStack do
   def start(_type, _args) do
     Logger.info("Starting Application")
     ServerSupervisor.start_link([])
-    Logger.info("Application Started")
 
     schema = "/Users/saber/FormationKBRW/Code/chapter 5/step1/lib/schemas/order_schema.xml"
     # sample_json = "/Users/saber/FormationKBRW/Code/chapter 5/step1/lib/schemas/sample.json"
     path0 = "/Users/saber/FormationKBRW/Chapters/Resources/chap1/orders_dump/orders_chunk0.json"
-    Server.Riak.empty_bucket("OKIL_ORDERS_bucket")
+    # path1 = "/Users/saber/FormationKBRW/Chapters/Resources/chap1/orders_dump/orders_chunk1.json"
+    # Server.Riak.empty_bucket("OKIL_ORDERS_bucket")
 
     JsonLoader.load_to_riak(
+      # sample_json,
       path0,
       "OKIL_ORDERS_bucket",
       "OKIL_ORDERS_schema",
       "OKIL_ORDERS_index",
       schema
     )
+    # JsonLoader.load_to_riak(
+    #   # sample_json,
+    #   path1,
+    #   "OKIL_ORDERS_bucket",
+    #   "OKIL_ORDERS_schema",
+    #   "OKIL_ORDERS_index",
+    #   schema
+    # )
 
     Server.Riak.get_bucket_keys("OKIL_ORDERS_bucket")
 
+    Logger.info("Application Started")
     {:ok, self()}
   end
 end

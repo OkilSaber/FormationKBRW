@@ -16,7 +16,7 @@ defmodule JsonLoader do
     Server.Riak.index_schema(index_name, schema_name)
     Server.Riak.create_bucket(bucket_name, %{"search_index" => index_name})
 
-    stream = Task.async_stream(
+    Task.async_stream(
       json,
       fn item ->
         Server.Riak.create(
@@ -27,8 +27,6 @@ defmodule JsonLoader do
         )
       end,
       max_concurrency: 10
-    )
-
-    Enum.each(stream, fn _ -> :ok end)
+    ) |> Stream.run()
   end
 end

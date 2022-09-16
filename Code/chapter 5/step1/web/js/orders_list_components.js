@@ -18,6 +18,9 @@ export const ListOrders = createReactClass({
     getInitialState: function () {
         return { orders: this.props.orders.value }
     },
+    componentWillReceiveProps(props) {
+        this.setState({ orders: props.orders.value })
+    },
     openDeleteModal(order) {
         this.props.modal({
             type: 'delete',
@@ -29,6 +32,20 @@ export const ListOrders = createReactClass({
                     default:
                         break
                 }
+            }
+        })
+    },
+    openLoadModal(promise, order_id) {
+        this.props.modal({
+            type: 'load',
+            promise: promise,
+            order_id: order_id,
+            callback: (value) => {
+                this.setState({
+                    orders: this.state.orders.filter((o) => {
+                        return o.id != value
+                    })
+                })
             }
         })
     },
@@ -84,6 +101,9 @@ export const ListOrders = createReactClass({
 })
 
 export const ListHeader = createReactClass({
+    getInitialState: function () {
+        return { search_field: "" }
+    },
     render() {
         return (
             <JSXZ in="orders" sel=".header">
@@ -91,14 +111,59 @@ export const ListHeader = createReactClass({
                     <JSXZ in="orders" sel=".navbar"></JSXZ>
                     <JSXZ in="orders" sel=".container">
                         <Z sel=".search-div">
-                            <JSXZ in="orders" sel=".search-div-container"></JSXZ>
+                            <JSXZ in="orders" sel=".search-div-container">
+                                <Z sel="Form">
+                                    <JSXZ in="orders" sel=".search-form" >
+                                        <Z sel=".search-text-container">
+                                            <ChildrenZ />
+                                        </Z>
+                                        <Z sel=".search-field" value={this.state.search_field} onChange={
+                                            (e) => {
+                                                this.setState({ search_field: e.target.value })
+                                            }
+                                        }>
+                                            <ChildrenZ />
+                                        </Z>
+                                        <Z sel=".my-button" onClick={
+                                            () => {
+                                                console.log(this.state.search_field)
+                                                HTTP.get(`/api/orders?id=nat_order000147679`).then(
+                                                    (response) => {
+                                                        console.log(response)
+                                                    }
+                                                )
+                                            }
+                                        }>
+                                            <ChildrenZ />
+                                        </Z>
+                                    </JSXZ>
+                                </Z>
+                            </JSXZ>
                         </Z>
                         <Z sel=".orders-table">
                             <JSXZ in="orders" sel=".list-categories-container"></JSXZ>
                             <this.props.Child {...this.props} />
                         </Z>
                         <Z sel=".pages">
-                            <ChildrenZ />
+                            <JSXZ in="orders" sel=".pages-container">
+                                <Z sel=".previous-page-container" onClick={() => {
+                                    if (parseInt(this.props.qs.page) >= 0) {
+                                        goTo("orders", null, { page: parseInt(this.props.qs.page) - 1 })
+                                        this.setState()
+                                    }
+                                }} >
+                                    {"<"}
+                                </Z>
+                                <Z sel=".current-page-container">
+                                    {parseInt(this.props.qs.page) + 1}
+                                </Z>
+                                <Z sel=".next-page-container" onClick={() => {
+                                    goTo("orders", null, { page: parseInt(this.props.qs.page) + 1 })
+                                    this.setState()
+                                }} >
+                                    {">"}
+                                </Z>
+                            </JSXZ>
                         </Z>
                     </JSXZ>
                 </Z>
@@ -124,20 +189,6 @@ export const ListLayout = createReactClass({
             }
         })
     },
-    openLoadModal(promise, order_id) {
-        this.props.modal({
-            type: 'load',
-            promise: promise,
-            order_id: order_id,
-            callback: (value) => {
-                this.setState({
-                    orders: this.state.orders.filter((o) => {
-                        return o.id != value
-                    })
-                })
-            }
-        })
-    },
     render() {
         var modal_component = {
             'delete': (props) => <DeleteModal {...props} />,
@@ -145,7 +196,8 @@ export const ListLayout = createReactClass({
         }[this.state.modal && this.state.modal.type];
         modal_component = modal_component && modal_component(this.state.modal)
         var props = {
-            ...this.props, modal: this.modal
+            ...this.props,
+            modal: this.modal
         }
         return (
             <JSXZ in="orders" sel=".layout">

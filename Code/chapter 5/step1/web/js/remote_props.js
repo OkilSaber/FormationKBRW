@@ -1,7 +1,7 @@
 export const remoteProps = {
     orders: (props) => {
         return {
-            url: "/api/orders",
+            url: `/api/orders?page=${props.qs.page}`,
             prop: "orders"
         }
     },
