@@ -107,7 +107,7 @@ export const ListOrders = createReactClass({
 
 export const ListHeader = createReactClass({
     getInitialState: function () {
-        return { search_field: "" }
+        return { search_field: "", rows: 10 }
     },
     search() {
         if (this.state.search_field != "") {
@@ -117,11 +117,14 @@ export const ListHeader = createReactClass({
                 const query = filter.split(":")
                 final_query = final_query.concat(`&${query[0]}=${query[1]}`)
             })
-            final_query = final_query.substring(1)
-            console.log(final_query)
-            HTTP.get(`/api/orders?${final_query}`).then(
+            HTTP.get(`/api/orders?rows=${this.state.rows}&${final_query}`).then(
                 (response) => {
-                    console.log(response)
+                    this.setState(() => { return { filter: response } })
+                }
+            )
+        } else {
+            HTTP.get(`/api/orders?rows=${this.state.rows}`).then(
+                (response) => {
                     this.setState(() => { return { filter: response } })
                 }
             )
@@ -134,17 +137,18 @@ export const ListHeader = createReactClass({
                     <JSXZ in="orders" sel=".navbar"></JSXZ>
                     <JSXZ in="orders" sel=".container">
                         <Z sel=".search-div">
-                            <JSXZ in="orders" sel=".search-div-container">
-                                <Z
-                                    sel=".search-form-container"
-                                    onSubmit={
-                                        (e) => {
-                                            e.preventDefault()
-                                            this.search()
-                                        }
+                            <JSXZ
+                                in="orders"
+                                sel=".search-div-container"
+                                onSubmit={
+                                    (e) => {
+                                        e.preventDefault()
+                                        this.search()
                                     }
-                                >
-                                    <JSXZ in="orders" sel=".search-form">
+                                }
+                            >
+                                <Z sel=".search-form">
+                                    <JSXZ in="orders" sel=".search-form-container" >
                                         <Z sel=".search-text-container">
                                             <ChildrenZ />
                                         </Z>
@@ -153,6 +157,21 @@ export const ListHeader = createReactClass({
                                             <ChildrenZ />
                                         </Z>
                                         <Z sel=".my-button" onClick={() => this.search()}>
+                                            <ChildrenZ />
+                                        </Z>
+                                    </JSXZ>
+                                </Z>
+                                <Z sel=".rows-selector-form">
+                                    <JSXZ in="orders" sel=".rows-selector-label-container"></JSXZ>
+                                    <JSXZ in="orders" sel=".rows-selector-container">
+                                        <Z
+                                            sel=".rows-selector-field"
+                                            onChange={(e) => {
+                                                this.setState({ rows: parseInt(e.target.value) }, () => {
+                                                    this.search()
+                                                })
+                                            }}
+                                        >
                                             <ChildrenZ />
                                         </Z>
                                     </JSXZ>
