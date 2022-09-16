@@ -4,6 +4,7 @@ import { getQuantity, formatAddress, goTo, cn } from './utilities';
 import { remoteProps } from './remote_props'
 import { HTTP } from './http';
 import { DeleteModal, LoaderModal } from './modals';
+
 export const Child = createReactClass({
     render() {
         var [ChildHandler, ...rest] = this.props.handlerPath
@@ -19,7 +20,11 @@ export const ListOrders = createReactClass({
         return { orders: this.props.orders.value }
     },
     componentWillReceiveProps(props) {
-        this.setState({ orders: props.orders.value })
+        if (props.filter) {
+            this.setState({ orders: props.filter })
+        } else {
+            this.setState({ orders: props.orders.value })
+        }
     },
     openDeleteModal(order) {
         this.props.modal({
@@ -104,6 +109,24 @@ export const ListHeader = createReactClass({
     getInitialState: function () {
         return { search_field: "" }
     },
+    search() {
+        if (this.state.search_field != "") {
+            const filters = this.state.search_field.split(" AND ")
+            var final_query = ""
+            filters.forEach((filter) => {
+                const query = filter.split(":")
+                final_query = final_query.concat(`&${query[0]}=${query[1]}`)
+            })
+            final_query = final_query.substring(1)
+            console.log(final_query)
+            HTTP.get(`/api/orders?${final_query}`).then(
+                (response) => {
+                    console.log(response)
+                    this.setState(() => { return { filter: response } })
+                }
+            )
+        }
+    },
     render() {
         return (
             <JSXZ in="orders" sel=".header">
@@ -112,28 +135,24 @@ export const ListHeader = createReactClass({
                     <JSXZ in="orders" sel=".container">
                         <Z sel=".search-div">
                             <JSXZ in="orders" sel=".search-div-container">
-                                <Z sel="Form">
-                                    <JSXZ in="orders" sel=".search-form" >
+                                <Z
+                                    sel=".search-form-container"
+                                    onSubmit={
+                                        (e) => {
+                                            e.preventDefault()
+                                            this.search()
+                                        }
+                                    }
+                                >
+                                    <JSXZ in="orders" sel=".search-form">
                                         <Z sel=".search-text-container">
                                             <ChildrenZ />
                                         </Z>
                                         <Z sel=".search-field" value={this.state.search_field} onChange={
-                                            (e) => {
-                                                this.setState({ search_field: e.target.value })
-                                            }
-                                        }>
+                                            (e) => this.setState({ search_field: e.target.value })}>
                                             <ChildrenZ />
                                         </Z>
-                                        <Z sel=".my-button" onClick={
-                                            () => {
-                                                console.log(this.state.search_field)
-                                                HTTP.get(`/api/orders?id=nat_order000147679`).then(
-                                                    (response) => {
-                                                        console.log(response)
-                                                    }
-                                                )
-                                            }
-                                        }>
+                                        <Z sel=".my-button" onClick={() => this.search()}>
                                             <ChildrenZ />
                                         </Z>
                                     </JSXZ>
@@ -142,12 +161,12 @@ export const ListHeader = createReactClass({
                         </Z>
                         <Z sel=".orders-table">
                             <JSXZ in="orders" sel=".list-categories-container"></JSXZ>
-                            <this.props.Child {...this.props} />
+                            <this.props.Child {...this.props} filter={this.state.filter} />
                         </Z>
                         <Z sel=".pages">
                             <JSXZ in="orders" sel=".pages-container">
                                 <Z sel=".previous-page-container" onClick={() => {
-                                    if (parseInt(this.props.qs.page) >= 0) {
+                                    if (parseInt(this.props.qs.page) > 0) {
                                         goTo("orders", null, { page: parseInt(this.props.qs.page) - 1 })
                                         this.setState()
                                     }
@@ -166,8 +185,8 @@ export const ListHeader = createReactClass({
                             </JSXZ>
                         </Z>
                     </JSXZ>
-                </Z>
-            </JSXZ>
+                </Z >
+            </JSXZ >
         )
     }
 })
