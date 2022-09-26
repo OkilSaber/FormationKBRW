@@ -51,7 +51,7 @@ defmodule Server.Router do
       Server.Riak.search(
         "OKIL_ORDERS_index",
         Server.Riak.escape(lucene_query),
-        String.to_integer(page) * 30,
+        String.to_integer(page) * String.to_integer(rows),
         String.to_integer(rows),
         sort <> "+asc"
       )

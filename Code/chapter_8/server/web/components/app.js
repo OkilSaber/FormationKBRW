@@ -6,13 +6,12 @@ import { Child } from './orders_list_components';
 import { ErrorPage } from './error_page';
 import { routes } from './routes'
 import { HTTP } from './http'
-// require('!!file-loader?name=[name].[ext]!../webflow/orders.html')
-// require('!!file-loader?name=[name].[ext]!../webflow/order_details.html')
-// require('!!file-loader?name=[name].[ext]!../webflow/confirm_modal.html')
-// require('!!file-loader?name=[name].[ext]!../webflow/loader.html')
+require('!!file-loader?name=[name].[ext]!../webflow/orders.html')
+require('!!file-loader?name=[name].[ext]!../webflow/order_details.html')
+require('!!file-loader?name=[name].[ext]!../webflow/confirm_modal.html')
+require('!!file-loader?name=[name].[ext]!../webflow/loader.html')
 require('!!file-loader?name=[name].[ext]!../webflow/loader.svg')
 require('!!file-loader?name=[name].[ext]!../webflow/logo_kbrw.svg')
-
 require("../webflow/webflow.css")
 require("../webflow/modals.css")
 

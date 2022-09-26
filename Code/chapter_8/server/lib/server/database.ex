@@ -35,7 +35,7 @@ defmodule Server.Database do
 
   @impl true
   def handle_cast({:delete, key}, state) do
-        res = :ets.delete(__MODULE__, key)
+        :ets.delete(__MODULE__, key)
         {:noreply, state}
   end
 

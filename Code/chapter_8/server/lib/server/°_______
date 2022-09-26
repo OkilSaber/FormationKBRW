@@ -1,0 +1,17 @@
+defmodule Server.Payment do
+  use GenServer
+
+  def start_link(order_id) do
+    GenServer.start_link(__MODULE__, order_id, name: order_id)
+  end
+
+  @impl true
+  def init(order_id) do
+    {:ok, order_id}
+  end
+
+  @impl true
+  def handle_call(:get_order_id, _from, order_id) do
+    {:reply, order_id, order_id}
+  end
+end
