@@ -11,7 +11,6 @@ defmodule TutoKbrwStack do
   def start(_type, _args) do
     Logger.info("Starting Application")
     ServerSupervisor.start_link([])
-    initialize_commands("OKIL_ORDERS_bucket")
 
     Application.put_env(
       :reaxt,

@@ -4,13 +4,15 @@ export const remoteProps = {
             props.qs.page = 0
         return {
             url: `/api/orders?page=${props.qs.page}`,
-            prop: "orders"
+            prop: "orders",
+            no_cache: true
         }
     },
     order: (props) => {
         return {
             url: "/api/order/" + props.order_id,
-            prop: "order"
+            prop: "order",
+            no_cache: true
         }
     }
 }

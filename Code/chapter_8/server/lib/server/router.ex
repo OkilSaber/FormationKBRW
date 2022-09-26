@@ -91,6 +91,35 @@ defmodule Server.Router do
     send_resp(conn, 200, "OK")
   end
 
+  post "/api/pay/:id" do
+    Logger.info("POST /pay/#{id}")
+    {_, pid} = Server.FSMSupervisor.start_child(String.to_atom(id))
+    order = Poison.decode!(Server.Riak.get_key_data("OKIL_ORDERS_bucket", id))
+
+    case order["status"]["state"] do
+      "init" ->
+        GenServer.call(pid, {:process_payment, []})
+
+        send_resp(
+          conn,
+          200,
+          Poison.encode!(Poison.decode!(Server.Riak.get_key_data("OKIL_ORDERS_bucket", id)))
+        )
+
+      "not_verified" ->
+        GenServer.call(pid, {:verfication, []})
+
+        send_resp(
+          conn,
+          200,
+          Poison.encode!(Poison.decode!(Server.Riak.get_key_data("OKIL_ORDERS_bucket", id)))
+        )
+
+      _ ->
+        send_resp(conn, 200, Poison.encode!(%{}))
+    end
+  end
+
   delete "/api/order/:id" do
     Logger.info("DELETE /order/#{id}")
     :timer.sleep(2000)

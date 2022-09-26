@@ -54,6 +54,17 @@ export const ListOrders = createReactClass({
             }
         })
     },
+    payOrder(order) {
+        HTTP.post(`/api/pay/${order.id}`).then((res) => {
+            console.log(res)
+            if (res !== {}) {
+                let index = this.state.orders.findIndex((o) => o.id == order.id)
+                let orders = JSON.parse(JSON.stringify(this.state.orders))
+                orders[index].status.state = res.status.state
+                this.setState({ orders: orders })
+            }
+        })
+    },
     render() {
         return (
             <>{
@@ -95,6 +106,9 @@ export const ListOrders = createReactClass({
                                 </JSXZ>
                                 <JSXZ in="orders" sel=".actions-container">
                                     <Z in="orders" sel=".action-delete-button" onClick={() => this.openDeleteModal(order)}>
+                                        <ChildrenZ />
+                                    </Z>
+                                    <Z in="orders" sel=".action-pay-button" onClick={() => this.payOrder(order)}>
                                         <ChildrenZ />
                                     </Z>
                                 </JSXZ>
@@ -233,7 +247,6 @@ export const ListLayout = createReactClass({
             'load': (props) => <LoaderModal {...props} />
         }[this.state.modal && this.state.modal.type];
         modal_component = modal_component && modal_component(this.state.modal)
-        console.log(this.props)
         var props = {
             ...this.props,
             modal: this.modal

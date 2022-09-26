@@ -93,7 +93,7 @@ export const formatAddress = ({ street: [street], city, postcode }) => `${street
 
 export const getQuantity = (items) => items.reduce((accumulator, { quantity_to_fetch }) => (accumulator + quantity_to_fetch), 0)
 
-function addRemoteProps(props) {
+function addRemoteProps(props, first_load = true) {
     return new Promise((resolve, reject) => {
         var remoteProps = Array.prototype.concat.apply([],
             props.handlerPath
@@ -103,7 +103,7 @@ function addRemoteProps(props) {
         remoteProps = remoteProps
             .map((spec_fun) => spec_fun(props))
             .filter((specs) => specs)
-            .filter((specs) => !props[specs.prop] || props[specs.prop].url != specs.url)
+            .filter((specs) => !props[specs.prop] || props[specs.prop].url != specs.url || specs.no_cache && first_load)
         if (remoteProps.length == 0)
             return resolve(props)
         const promise_mapper = (spec) => {
@@ -116,7 +116,7 @@ function addRemoteProps(props) {
         const promise_array = remoteProps.map(promise_mapper)
         return Promise.all(promise_array)
             .then(xs => xs.reduce(reducer, props), reject)
-            .then((p) => addRemoteProps(p).then(resolve, reject), reject)
+            .then((p) => addRemoteProps(p, false).then(resolve, reject), reject)
     })
 }
 
@@ -138,7 +138,6 @@ export const cn = function () {
 
 export default {
     reaxt_server_render(params, render) {
-        console.log("reaxt_server_render")
         inferPropsChange(params.path, params.query, params.cookies)
             .then(() => {
                 render(<Child {...browserState} />)
@@ -147,7 +146,6 @@ export default {
             })
     },
     reaxt_client_render(initialProps, render) {
-        console.log("reaxt_client_render")
         browserState = initialProps
         Link.renderFunc = render
         window.addEventListener("popstate", () => { Link.onPathChange() })

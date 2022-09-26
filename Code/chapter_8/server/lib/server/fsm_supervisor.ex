@@ -1,21 +1,25 @@
 defmodule Server.FSMSupervisor do
   use DynamicSupervisor
+  require Logger
 
   def start_link(init_arg) do
+    Logger.info("Starting FSM Supervisor")
     DynamicSupervisor.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
   def start_child(order_id) do
+    Logger.info("Starting FSM for order #{inspect(order_id)}")
+
     spec = %{
-      id: order_id,
+      id: Server.Payment,
       start: {Server.Payment, :start_link, [order_id]}
     }
-    DynamicSupervisor.start_child(__MODULE__, spec)
-  end
 
-  def check_if_exists(order_id) do
-    DynamicSupervisor.which_children(__MODULE__)
-    |> Enum.find(fn {_, pid, _, _} -> pid == order_id end)
+    case DynamicSupervisor.start_child(__MODULE__, spec) do
+      {:ok, pid} -> {:ok, pid}
+      {:error, {:already_started, pid}} -> {:ok, pid}
+      {:error, reason} -> {:error, reason}
+    end
   end
 
   @impl true
