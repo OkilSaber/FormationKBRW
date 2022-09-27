@@ -6,7 +6,7 @@ defimpl ExFSM.Machine.State, for: Map do
     new_order
   end
 
-  def handlers(order) do
+  def handlers(_order) do
     [MyFSM]
   end
 end
