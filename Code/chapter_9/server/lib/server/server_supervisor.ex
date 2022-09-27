@@ -9,7 +9,8 @@ defmodule ServerSupervisor do
   def init(:ok) do
     children = [
       {Server.FSMSupervisor, name: Server.FSMSupervisor},
-      {Plug.Cowboy, scheme: :http, plug: Server.Router, options: [port: 4001]}
+      {Plug.Cowboy, scheme: :http, plug: Server.Router, options: [port: 4001]},
+      {Plug.Cowboy, scheme: :http, plug: Server.EwebRouter, options: [port: 4002]}
     ]
 
     Logger.info("Starting Children")

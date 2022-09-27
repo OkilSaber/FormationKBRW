@@ -26,7 +26,8 @@ defmodule TutoKbrwStack.MixProject do
       {:reaxt, tag: "v4.0.2", github: "kbrw/reaxt"},
       {:plug_cowboy, "~> 2.0"},
       {:exfsm, git: "https://github.com/kbrw/exfsm.git"},
-      {:poison, "~> 4.0"}
+      {:poison, "~> 4.0"},
+      {:ewebmachine, "2.3.1"}
     ]
   end
 end
