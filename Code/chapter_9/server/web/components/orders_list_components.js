@@ -71,47 +71,31 @@ export const ListOrders = createReactClass({
                 this.state.orders.map(
                     order => (
                         <JSXZ in="orders" sel=".orders-table-container" key={order.id}>
-                            <Z sel=".orders-list">
-                                <JSXZ in="orders" sel=".order-number-container">
-                                    <Z in="orders" sel=".order-number-text">
-                                        {order.id}
-                                    </Z>
-                                </JSXZ>
-                                <JSXZ in="orders" sel=".customer-container">
-                                    <Z in="orders" sel=".customer-text">
-                                        {order.custom.customer.full_name}
-                                    </Z>
-                                </JSXZ>
-                                <JSXZ in="orders" sel=".address-container">
-                                    <Z in="orders" sel=".address-text">
-                                        {formatAddress(order.custom.shipping_address)}
-                                    </Z>
-                                </JSXZ>
-                                <JSXZ in="orders" sel=".quantity-container">
-                                    <Z in="orders" sel=".quantity-text">
-                                        {getQuantity(order.custom.items)}
-                                    </Z>
-                                </JSXZ>
-                                <JSXZ in="orders" sel=".details-container">
-                                    <Z in="orders" sel=".details-link">
-                                        <a onClick={() => {
-                                            this.props.Link.GoTo("order", order.id)
-                                        }}>Details</a>
-                                    </Z>
-                                </JSXZ>
-                                <JSXZ in="orders" sel=".pay-container">
-                                    <Z in="orders" sel=".pay-text">
-                                        Status: {order.status.state}
-                                    </Z>
-                                </JSXZ>
-                                <JSXZ in="orders" sel=".actions-container">
-                                    <Z in="orders" sel=".action-delete-button" onClick={() => this.openDeleteModal(order)}>
-                                        <ChildrenZ />
-                                    </Z>
-                                    <Z in="orders" sel=".action-pay-button" onClick={() => this.payOrder(order)}>
-                                        <ChildrenZ />
-                                    </Z>
-                                </JSXZ>
+                            <Z in="orders" sel=".order-number-text">
+                                {order.id}
+                            </Z>
+                            <Z in="orders" sel=".customer-text">
+                                {order.custom.customer.full_name}
+                            </Z>
+                            <Z in="orders" sel=".address-text">
+                                {formatAddress(order.custom.shipping_address)}
+                            </Z>
+                            <Z in="orders" sel=".quantity-text">
+                                {getQuantity(order.custom.items)}
+                            </Z>
+                            <Z in="orders" sel=".details-link">
+                                <a onClick={() => {
+                                    this.props.Link.GoTo("order", order.id)
+                                }}>Details</a>
+                            </Z>
+                            <Z in="orders" sel=".pay-text">
+                                Status: {order.status.state}
+                            </Z>
+                            <Z in="orders" sel=".action-delete-button" onClick={() => this.openDeleteModal(order)}>
+                                <ChildrenZ />
+                            </Z>
+                            <Z in="orders" sel=".action-pay-button" onClick={() => this.payOrder(order)}>
+                                <ChildrenZ />
                             </Z>
                         </JSXZ>
                     )
@@ -149,76 +133,55 @@ export const ListHeader = createReactClass({
     render() {
         return (
             <JSXZ in="orders" sel=".header">
-                <Z sel=".header-container">
-                    <JSXZ in="orders" sel=".navbar"></JSXZ>
-                    <JSXZ in="orders" sel=".container">
-                        <Z sel=".search-div">
-                            <JSXZ
-                                in="orders"
-                                sel=".search-div-container"
-                                onSubmit={
-                                    (e) => {
-                                        e.preventDefault()
-                                        this.search()
-                                    }
-                                }
-                            >
-                                <Z sel=".search-form">
-                                    <JSXZ in="orders" sel=".search-form-container" >
-                                        <Z sel=".search-text-container">
-                                            <ChildrenZ />
-                                        </Z>
-                                        <Z sel=".search-field" value={this.state.search_field} onChange={
-                                            (e) => this.setState({ search_field: e.target.value })}>
-                                            <ChildrenZ />
-                                        </Z>
-                                        <Z sel=".my-button" onClick={() => this.search()}>
-                                            <ChildrenZ />
-                                        </Z>
-                                    </JSXZ>
-                                </Z>
-                                <Z sel=".rows-selector-form">
-                                    <JSXZ in="orders" sel=".rows-selector-label-container"></JSXZ>
-                                    <JSXZ in="orders" sel=".rows-selector-container">
-                                        <Z
-                                            sel=".rows-selector-field"
-                                            onChange={(e) => {
-                                                this.setState({ rows: parseInt(e.target.value) }, () => {
-                                                    this.search()
-                                                })
-                                            }}
-                                        >
-                                            <ChildrenZ />
-                                        </Z>
-                                    </JSXZ>
-                                </Z>
-                            </JSXZ>
+                <Z sel=".search-div">
+                    <JSXZ
+                        in="orders"
+                        sel=".search-div-container"
+                        onSubmit={
+                            (e) => {
+                                e.preventDefault()
+                                this.search()
+                            }
+                        }
+                    >
+                        <Z sel=".search-field" value={this.state.search_field} onChange={
+                            (e) => this.setState({ search_field: e.target.value })}>
+                            <ChildrenZ />
                         </Z>
-                        <Z sel=".orders-table">
-                            <JSXZ in="orders" sel=".list-categories-container"></JSXZ>
-                            <this.props.Child {...this.props} filter={this.state.filter} />
+                        <Z sel=".my-button" onClick={() => this.search()}>
+                            <ChildrenZ />
                         </Z>
-                        <Z sel=".pages">
-                            <JSXZ in="orders" sel=".pages-container">
-                                <Z sel=".previous-page-container" onClick={() => {
-                                    this.props.Link.GoTo('orders', '', { page: parseInt(this.props.qs.page) - 1 })
-                                    this.setState()
-                                }} >
-                                    {'<'}
-                                </Z>
-                                <Z sel=".current-page-container">
-                                    {parseInt(this.props.qs.page) + 1}
-                                </Z>
-                                <Z sel=".next-page-container" onClick={() => {
-                                    this.props.Link.GoTo('orders', '', { page: parseInt(this.props.qs.page) + 1 })
-                                    this.setState()
-                                }} >
-                                    {">"}
-                                </Z>
-                            </JSXZ>
+                        <Z
+                            sel=".rows-selector-field"
+                            onChange={(e) => {
+                                this.setState({ rows: parseInt(e.target.value) }, () => {
+                                    this.search()
+                                })
+                            }}
+                        >
+                            <ChildrenZ />
                         </Z>
                     </JSXZ>
-                </Z >
+                </Z>
+                <Z sel=".orders-table">
+                    <JSXZ in="orders" sel=".list-categories-container"></JSXZ>
+                    <this.props.Child {...this.props} filter={this.state.filter} />
+                </Z>
+                <Z sel=".previous-page-container" onClick={() => {
+                    this.props.Link.GoTo('orders', '', { page: parseInt(this.props.qs.page) - 1 })
+                    this.setState()
+                }} >
+                    {'<'}
+                </Z>
+                <Z sel=".current-page-container">
+                    {parseInt(this.props.qs.page) + 1}
+                </Z>
+                <Z sel=".next-page-container" onClick={() => {
+                    this.props.Link.GoTo('orders', '', { page: parseInt(this.props.qs.page) + 1 })
+                    this.setState()
+                }} >
+                    {">"}
+                </Z>
             </JSXZ >
         )
     }
